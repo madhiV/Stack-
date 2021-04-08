@@ -4,60 +4,45 @@
 struct node{
     char data;
     struct node *next;
-}*head=NULL,*n,*p,*old;
-int stack_Underflow()
-{
-    if(head==NULL){
-        return 1;
+}*p,*head=NULL;
+void push(char e){
+    struct node *n=(struct node *)malloc(sizeof(struct node));
+    n->data=e;
+    n->next=NULL;
+    if (head==NULL){
+        head=n;
     }
     else{
-        return 0;
+        n->next=head;
+        head=n;
     }
 }
-void push(char e)
-{
-       n=(struct node *)malloc(sizeof(struct node));
-       n->data=e;
-       n->next=head;
-       head=n;
+char last(){
+    p=head;
+    return p->data;
 }
 char pop(){
-    char e;
-    p=head;
-    if(stack_Underflow()==1){
-        printf("Stack underflow...");
-        return -1;
+    if(head->next==NULL){
+        head=NULL;
     }
     else{
-        e=p->data;
+        p=head;
         head=head->next;
+        return p->data;
     }
-    return e;
-}
-char Last(){
-    p=head;
-    while(p->next!=NULL){
-        p=p->next;
-    }
-    return p->data;
 }
 void main()
 {
-    char S[500];
+    char s[500];
     printf("Enter the code : ");
-    scanf("%s",&S);
-    for(int i=0;i<strlen(S);i++){
-        if(S[i]=='(' || S[i]=='{' || S[i]=='['){
-            push('(');
+    scanf("%s",&s);
+    for(int i=0;i<strlen(s);i++){
+        if (s[i]=='(' || s[i]=='{' || s[i]=='['){
+            push(s[i]);
         }
-        else if((S[i]==')' && Last()=='(' )||(S[i]=='}' && Last()=='{' )||(S[i]==']' && Last()=='[' )){
+        else if((s[i]==')' && last()=='(') || (s[i]=='}' && last()=='{') || (s[i]==']' && last()=='[')){
             pop();
         }
     }
-    if(head!=NULL){
-        printf("The code is balanced");
-    }
-    else{
-        printf("The code is not balanced");
-    }
+    (head==NULL)?printf("Code is balanced"):printf("Code is not balanced");
 }
