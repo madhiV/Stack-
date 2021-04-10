@@ -37,11 +37,14 @@ void main()
     printf("Enter the code : ");
     scanf("%s",&s);
     for(int i=0;i<strlen(s);i++){
-        if (s[i]=='(' || s[i]=='{' || s[i]=='['){
+        if(i==0){
             push(s[i]);
         }
         else if((s[i]==')' && last()=='(') || (s[i]=='}' && last()=='{') || (s[i]==']' && last()=='[')){
             pop();
+        }
+        else{
+            push(s[i]);
         }
     }
     (head==NULL)?printf("Code is balanced"):printf("Code is not balanced");
